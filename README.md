@@ -4,7 +4,7 @@
 * 毕竟菜鸡啥也不会
 
 ##### 技术
-* SpringBoot +MyBatis+Mysql+Thymeleaf
+* SpringBoot +MyBatis+Mysql+Thymeleaf+H2Database
 * BootStrap 
 
 #### 文档
