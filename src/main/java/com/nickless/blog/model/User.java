@@ -37,12 +37,12 @@ public class User {
         this.name = name;
     }
 
-    public String getTaken() {
+    public String getToken() {
         return token;
     }
 
-    public void setTaken(String taken) {
-        this.token = taken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Long getGmtCreat() {
