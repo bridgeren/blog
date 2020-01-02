@@ -2,6 +2,8 @@ package com.nickless.blog.controller;
 
 import com.nickless.blog.dto.AccessTokenDto;
 import com.nickless.blog.dto.GithubUser;
+import com.nickless.blog.mapper.UserMapper;
+import com.nickless.blog.model.User;
 import com.nickless.blog.provider.GitHubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * creat by nickless
@@ -18,14 +21,21 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class AuthorizeController {
+
     @Autowired
     private GitHubProvider gitHubProvider;
+
     @Value("${github.client.id}")
     private  String clientId;
+
     @Value("${github.client.secret}")
     private  String clientSecret;
+
     @Value("${github.redirect.uri}")
     private  String redirectUri;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @RequestMapping("/callback")
     public String calllback(@RequestParam(name = "code") String code,
@@ -39,10 +49,17 @@ public class AuthorizeController {
         accessTokenDto.setRedirect_uri(redirectUri);
         accessTokenDto.setState(state);
         String accessToken= gitHubProvider.getAcessToken(accessTokenDto);
-        GithubUser user=gitHubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        if(user!=null){
-           request.getSession().setAttribute("user",user);
+        GithubUser githubUser=gitHubProvider.getUser(accessToken);
+        System.out.println(githubUser.getName());
+        if(githubUser!=null){
+            User user=new User();
+            user.setTaken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreat(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreat());
+            userMapper.insert(user);
+           request.getSession().setAttribute("user",githubUser);
            return  "redirect:/";
         }else {
             return "redirect:/";
