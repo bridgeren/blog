@@ -47,6 +47,9 @@
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.user!=null}">
+                    <a href="/publish">发布</a>
+                </li>
                 <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=79f9ba467b4b5e2dc892
  &redirect_uri=http://localhost:8080/callback&s cope=user&state=1">登陆</a></li>
                 <li class="dropdown" th:if="${session.user!=null}">
@@ -70,20 +73,22 @@
         <div class="col-xs-12 col-sm-12  col-md-12 col-lg-9" >
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加</h2>
             <hr>
-            <form action="">
+            <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title">标题[简单点]</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="标题。。">
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="标题。。">
                 </div>
                 <div class="form-group">
-                    <label for="title">问题补充</label>
-                    <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
+                    <label for="description">问题补充</label>
+                    <textarea name="description" class="form-control" th:value="${description}" id="description" cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="title">添加标签</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签以,隔开">
-                    <button type="submit" class="btn btn-success btn_publish">提交</button>
+                    <label for="tag">添加标签</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签以,隔开">
+
                 </div>
+                <span class="alert alert-danger" th:text="${error}" th:if="${error!=null}"></span>
+                <button type="submit" class="btn btn-success btn_publish">提交</button>
             </form>
         </div>
         <div class="col-xs-12 col-sm-12  col-md-12 col-lg-3" >
