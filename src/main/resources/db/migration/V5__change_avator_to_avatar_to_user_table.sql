@@ -1,0 +1,1 @@
+ALTER TABLE user CHANGE avator_url avatar_url varchar(100);
