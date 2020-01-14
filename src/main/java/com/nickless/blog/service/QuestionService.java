@@ -1,5 +1,6 @@
 package com.nickless.blog.service;
 
+import com.nickless.blog.dto.PaginationDto;
 import com.nickless.blog.dto.QuestionDto;
 import com.nickless.blog.mapper.QuestionMapper;
 import com.nickless.blog.mapper.UserMapper;
@@ -26,9 +27,23 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionDto> list() {
+    public PaginationDto list(Integer page, Integer size) {
+
+        PaginationDto paginationDto = new PaginationDto();
+        Integer totalcount = questionMapper.count(); // 总条数
+        paginationDto.setPagination(totalcount, page, size);
+        int totalPage=paginationDto.getTotalPage();
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > totalPage) {
+            page = totalPage;
+        }
+
+        Integer offset = size * (page - 1);
         List<QuestionDto> questionDtoList = new ArrayList<>();
-        List<Question> questionList = questionMapper.list();
+        List<Question> questionList = questionMapper.list(offset, size);
+
         for (Question question : questionList) {
             User user = userMapper.findById(question.getCreator());
             QuestionDto questionDto = new QuestionDto();
@@ -36,6 +51,9 @@ public class QuestionService {
             questionDto.setUser(user);
             questionDtoList.add(questionDto);
         }
-        return questionDtoList;
+        paginationDto.setQuestions(questionDtoList);
+
+
+        return paginationDto;
     }
 }

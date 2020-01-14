@@ -1,5 +1,6 @@
 package com.nickless.blog.controller;
 
+import com.nickless.blog.dto.PaginationDto;
 import com.nickless.blog.dto.QuestionDto;
 import com.nickless.blog.mapper.QuestionMapper;
 import com.nickless.blog.mapper.UserMapper;
@@ -32,10 +33,12 @@ public class IndexController {
 
     @GetMapping("/")
     public String greeting(HttpServletRequest request,
-                            Model model) {
+                           Model model,
+                           @RequestParam(name = "page", defaultValue = "1") Integer page,
+                           @RequestParam(name = "size", defaultValue = "5") Integer size) {
         Cookie[] cookies = request.getCookies();
-        if(cookies==null){
-            return  "index";
+        if (cookies == null) {
+            return "index";
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("token")) {
@@ -47,8 +50,8 @@ public class IndexController {
                 break;
             }
         }
-        List<QuestionDto> questionList = questionService.list();
-        model.addAttribute("questions",questionList);
+        PaginationDto pagination = questionService.list(page,size);
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 
