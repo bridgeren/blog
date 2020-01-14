@@ -15,6 +15,7 @@
 * [Bootstrap](https://www.bootcss.com/)
 * [lombok](https://projectlombok.org/)
 * [Thymeleaf](https://www.thymeleaf.org/)
+* [jquery]()
 
 #### 进度
 * boot-devtools+liveReload 自动部署工具

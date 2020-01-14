@@ -37,7 +37,7 @@ public class IndexController {
                            @RequestParam(name = "page", defaultValue = "1") Integer page,
                            @RequestParam(name = "size", defaultValue = "5") Integer size) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
+        if (cookies == null||cookies.equals("")) {
             return "index";
         }
         for (Cookie cookie : cookies) {
