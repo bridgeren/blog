@@ -34,7 +34,7 @@ public class PaginationDto {
         pages.add(currentPage);
         for (int i = 1; i <= 3; i++) {
             if (currentPage - i > 0) {
-                pages.add(0, currentPage - 1);
+                pages.add(0, currentPage - i);
             }
             if (currentPage + i <= totalPage) {
                 pages.add(currentPage + i);
