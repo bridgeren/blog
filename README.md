@@ -16,6 +16,7 @@
 * [lombok](https://projectlombok.org/)
 * [Thymeleaf](https://www.thymeleaf.org/)
 * [jquery](https://jquery.com/download/)
+* [拦截器 interceptor](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor)
 
 #### 进度
 * boot-devtools+liveReload 自动部署工具
