@@ -21,3 +21,9 @@
 #### 进度
 * boot-devtools+liveReload 自动部署工具
 * 基本完成分页功能
+* 完成登陆
+#### bash
+````
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+````
